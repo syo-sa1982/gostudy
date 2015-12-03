@@ -6,7 +6,7 @@ import (
 
 func worker(msg string) <-chan string {
 	receiver := make(chan string)
-	for i := 0; i < 3; i++ {
+	for i := 0; i < 4; i++ {
 		go func(i int) {
 			msg := fmt.Sprintf("%d %s done", i, msg)
 			receiver <- msg
@@ -17,7 +17,7 @@ func worker(msg string) <-chan string {
 
 func main() {
 	receiver := worker("job")
-	for i := 0; i < 3; i++ {
+	for i := 0; i < 4; i++ {
 		log.Println(<-receiver)
 	}
 }
