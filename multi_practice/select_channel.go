@@ -5,12 +5,11 @@ import (
 	"log"
 )
 
-func worker(msg string) (<-chan string, <-chan bool) {
+func worker(msg string) (<-chan string) {
 	var wg sync.WaitGroup
 	receiver := make(chan string)
-	fin := make(chan bool)
 	go func() {
-		for i := 0; i < 3; i++ {
+		for i := 0; i < 10; i++ {
 			wg.Add(1)
 			go func(i int) {
 				msg := fmt.Sprintf("%d %s done", i, msg)
@@ -19,20 +18,20 @@ func worker(msg string) (<-chan string, <-chan bool) {
 			}(i)
 		}
 		wg.Wait()
-		fin<-false //終了を伝える
+		close(receiver)
 	}()
-	return receiver, fin
+	return receiver
 }
 
 
 func main() {
-	receiver, fin := worker("job")
+	receiver := worker("job")
 	for {
-		select {
-		case receive := <-receiver:
-			log.Println(receive)
-		case <-fin: //終了したら抜ける
+		receive, ok := <-receiver
+		if !ok {
+			log.Println("closed")
 			return
 		}
+		log.Println(receive)
 	}
 }

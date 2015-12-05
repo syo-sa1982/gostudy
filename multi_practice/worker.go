@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-func worker(msg string) <-chan string {
+func worker1(msg string) <-chan string {
 	receiver := make(chan string)
 	for i := 0; i < 4; i++ {
 		go func(i int) {
@@ -16,7 +16,7 @@ func worker(msg string) <-chan string {
 }
 
 func main() {
-	receiver := worker("job")
+	receiver := worker1("job")
 	for i := 0; i < 4; i++ {
 		log.Println(<-receiver)
 	}
