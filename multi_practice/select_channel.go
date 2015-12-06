@@ -1,7 +1,6 @@
 package main
 import (
 	"sync"
-	"fmt"
 	"log"
 )
 
@@ -75,20 +74,21 @@ var SkillMasterList = []SkillMaster{
 	SkillMaster{ID: 60, CategoryID: 2, SkillName: "頭突き", Value: 10},
 }
 
-//var SkillMap = make(map[int]int)
+var SkillMap = make(map[int]SkillMaster)
 
-func worker(SkillList []SkillMaster) (<-chan string) {
+func worker(SkillList []SkillMaster) (<-chan SkillMaster) {
 	var wg sync.WaitGroup
-	receiver := make(chan string)
+	receiver := make(chan SkillMaster)
 	go func() {
 		for key := range SkillList {
 			wg.Add(1)
-			i := SkillList[key].ID
+//			i := key
 			go func(i int) {
-				msg := fmt.Sprintf("%d %s done", i, SkillList[key].SkillName)
+//				msg := fmt.Sprintf("%d %s done", i, SkillList[key].SkillName)
+				msg := SkillList[i]
 				receiver <- msg
 				wg.Done()
-			}(i)
+			}(key)
 		}
 		wg.Wait()
 		close(receiver)
@@ -102,8 +102,10 @@ func main() {
 		receive, ok := <-receiver
 		if !ok {
 			log.Println("closed")
+			log.Println(SkillMap)
 			return
 		}
 		log.Println(receive)
+		SkillMap[receive.ID] = receive
 	}
 }
