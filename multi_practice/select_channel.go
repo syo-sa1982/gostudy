@@ -2,6 +2,7 @@ package main
 import (
 	"sync"
 	"log"
+	"time"
 )
 
 
@@ -82,10 +83,11 @@ func worker(SkillList []SkillMaster) (<-chan SkillMaster) {
 	go func() {
 		for key := range SkillList {
 			wg.Add(1)
-//			i := key
 			go func(i int) {
-//				msg := fmt.Sprintf("%d %s done", i, SkillList[key].SkillName)
+				log.Println("started.", i)
 				msg := SkillList[i]
+				time.Sleep(10 * time.Second)
+				log.Println("finished.", i)
 				receiver <- msg
 				wg.Done()
 			}(key)
@@ -103,9 +105,12 @@ func main() {
 		if !ok {
 			log.Println("closed")
 			log.Println(SkillMap)
-			return
+			break
 		}
 		log.Println(receive)
 		SkillMap[receive.ID] = receive
 	}
+
+	log.Println("外")
+	log.Println(SkillMap)
 }
