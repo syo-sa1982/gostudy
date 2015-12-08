@@ -1,15 +1,16 @@
 package main
 
 import (
-
 	"net"
 	"net/http"
 	"net/http/fcgi"
 	"fmt"
+	"github.com/zenazn/goji"
+	"github.com/zenazn/goji/web"
 )
 
-func mainHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "hello, world! on Nginx tcp")
+func hello(c web.C, w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "hello, world! on Nginx tcp is %s", c.URLParams["name"])
 }
 
 func main() {
@@ -17,6 +18,8 @@ func main() {
 	if err != nil {
 		return
 	}
-	http.HandleFunc("/", mainHandler)
-	fcgi.Serve(l,nil)
+//	http.HandleFunc("/", mainHandler)
+//	fcgi.Serve(l,nil)
+	goji.Get("/hello/:name", hello)
+	fcgi.Serve(l, goji.DefaultMux)
 }
