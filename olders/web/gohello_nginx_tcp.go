@@ -1,16 +1,33 @@
 package main
 
 import (
-	"net"
 	"net/http"
-	"net/http/fcgi"
 	"fmt"
 	"github.com/zenazn/goji"
 	"github.com/zenazn/goji/web"
+	"encoding/json"
+	"net/http/fcgi"
+	"net"
 )
 
+type User struct {
+	Id   int64
+	Name string
+}
+
 func hello(c web.C, w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "hello, world! on Nginx tcp is %s", c.URLParams["name"])
+	u := User{
+		Id:   1,
+		Name: c.URLParams["name"],
+	}
+
+	j, _ := json.Marshal(u)
+	fmt.Fprintf(w, string(j))
+}
+
+func Route(m *web.Mux) http.Handler {
+	m.Get("/user/hello/:name", hello)
+	return m
 }
 
 func main() {
@@ -18,8 +35,5 @@ func main() {
 	if err != nil {
 		return
 	}
-//	http.HandleFunc("/", mainHandler)
-//	fcgi.Serve(l,nil)
-	goji.Get("/hello/:name", hello)
-	fcgi.Serve(l, goji.DefaultMux)
+	fcgi.Serve(l, Route(goji.DefaultMux))
 }
