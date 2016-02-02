@@ -3,8 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>チャット</title>
+    <style>
+        input { display: block;}
+        ul { list-style: none;}
+    </style>
 </head>
 <body>
-    チャットしましょう！
+    <ul id="messages"></ul>
+    WebSocketをチャット
+    <form id="chatbox">
+        <textarea></textarea>
+        <input type="submit" value="送信" />
+    </form>
 </body>
 </html>
