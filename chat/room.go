@@ -2,7 +2,6 @@ package main
 import (
 	"github.com/gorilla/websocket"
 	"net/http"
-	"github.com/revel/revel"
 	"log"
 )
 
