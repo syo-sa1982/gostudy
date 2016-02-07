@@ -4,11 +4,10 @@ import (
 	"bytes"
 )
 func TestNew(t *testing.T) {
-	t.Error("まだテスト作ってない")
 	var buf bytes.Buffer
 	tracer := New(&buf)
 	if tracer == nil {
-		t.Error("まだテスト作ってない")
+		t.Error("返り値がnil")
 	} else {
 		tracer.Trace("こんにちはtraceパッケージ")
 		if buf.String() != "こんにちはtraceパッケージ\n" {
