@@ -6,8 +6,8 @@ import (
 )
 
 func TestServeHTTP(t *testing.T) {
-	h := new(authHandler)
-	ts := httptest.NewServer( http.HandleFunc( h.ServeHTTP ))
+	var h *authHandler
+	ts := httptest.NewServer( http.HandleFunc( h.next.ServeHTTP ) )
 
 	defer ts.Close()
 
