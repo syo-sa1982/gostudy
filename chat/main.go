@@ -27,13 +27,13 @@ func main() {
 	flag.Parse()
 	
 	r := newRoom()
-	http.Handle("/", &templateHandler{filename: "chat.html"})
+	http.Handle("/", MustAuth(&templateHandler{filename: "chat.html"}))
 	http.Handle("/room", r)
 	// チャット開始
 	go r.run()
 	// Webサーバを開始
 	log.Println("Webサーバー開始。ポート:", *addr)
-	if err := http.ListenAndServe(":8080", nil); err != nil {
+	if err := http.ListenAndServe(*addr, nil); err != nil {
 		log.Fatal("ListenAndServe:", err)
 	}
 }
