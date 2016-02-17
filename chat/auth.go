@@ -33,10 +33,15 @@ func loginHandler(w http.ResponseWriter, r *http.Request)  {
 	switch action {
 	case "login":
 		provider, err := gomniauth.Provider(provider)
-		if err != {
-			log.Fatalln("認証プロバイダの取得に失敗:", provider)
+		if err != nil {
+			log.Fatalln("認証プロバイダの取得に失敗:", provider, "", err)
 		}
-		log.Println("TODO: ログイン処理", provider)
+		loginUrl, err := provider.GetBeginAuthURL(nil, nil)
+		if err != nil {
+			log.Fatalln("GetBeginAuthURL呼び出しエラー:", provider, "", err)
+		}
+		w.Header().Set("Location", loginUrl)
+		w.WriteHeader(http.StatusTemporaryRedirect)
 	default:
 		w.WriteHeader(http.StatusNotFound)
 		fmt.Fprintf(w, "アクション%sには非対応です", action)
