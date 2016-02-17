@@ -4,6 +4,7 @@ import (
 	"strings"
 	"log"
 	"fmt"
+	"github.com/stretchr/gomniauth"
 )
 
 type authHandler struct {
@@ -31,6 +32,10 @@ func loginHandler(w http.ResponseWriter, r *http.Request)  {
 
 	switch action {
 	case "login":
+		provider, err := gomniauth.Provider(provider)
+		if err != {
+			log.Fatalln("認証プロバイダの取得に失敗:", provider)
+		}
 		log.Println("TODO: ログイン処理", provider)
 	default:
 		w.WriteHeader(http.StatusNotFound)

@@ -9,7 +9,6 @@ import (
 	"flag"
 	"github.com/stretchr/gomniauth"
 	"github.com/stretchr/gomniauth/providers/github"
-	"github.com/stretchr/gomniauth/providers/google"
 	"github.com/stretchr/gomniauth/providers/facebook"
 )
 
@@ -33,9 +32,8 @@ func main() {
 	// Gomniauthのセットアップ
 	gomniauth.SetSecurityKey("98dfbg7iu2nb4uywevihjw4tuiyub34noilk")
 	gomniauth.WithProviders(
-		github.New("3d1e6ba69036e0624b61", "7e8938928d802e7582908a5eadaaaf22d64babf1", "http://localhost:8080/auth/callback/github"),
-//		google.New("44166123467-o6brs9o43tgaek9q12lef07bk48m3jmf.apps.googleusercontent.com", "rpXpakthfjPVoFGvcf9CVCu7", "http://localhost:8080/auth/callback/google"),
-		facebook.New("537611606322077", "f9f4d77b3d3f4f5775369f5c9f88f65e", "http://localhost:8080/auth/callback/facebook"),
+		github.New("e87fd3d4443a41a869eb", "f9efbb46a454cdfbea1e713c9c4bf1df90ceb5f8", "http://localhost:8080/auth/callback/github"),
+		facebook.New("866458566797843", "c265d1fe8f5bf6eb28066e20a7f25281", "http://localhost:8080/auth/callback/facebook"),
 	)
 
 	r := newRoom()
