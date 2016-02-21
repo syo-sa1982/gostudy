@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"log"
 	"github.com/syo-sa1982/gostudy/trace"
+	"github.com/stretchr/objx"
 )
 
 type room struct {
@@ -70,10 +71,15 @@ func (r *room) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 		log.Fatal("ServeHTTP:", err)
 		return
 	}
+	authCookie, err := req.Cookie("auth")
+	if err != nil {
+		log.Fatal("クッキーの取得に失敗しました:", err)
+	}
 	client := &client{
 		socket: socket,
 		send:   make(chan *message, messeageBufferSize),
 		room:   r,
+		userData: objx.MustFromBase64(authCookie.Value),
 	}
 	r.join <- client
 	defer func() { r.leave <- client }()
