@@ -8,7 +8,7 @@ import (
 
 type room struct {
 	// 転送メッセージ
-	forward chan []byte
+	forward chan *message
 	// 入室チャネル
 	join chan *client
 	// 退室チャネル
@@ -21,7 +21,7 @@ type room struct {
 
 func newRoom() *room {
 	return &room{
-		forward: make(chan []byte),
+		forward: make(chan *message),
 		join:    make(chan *client),
 		leave:   make(chan *client),
 		clients: make(map[*client]bool),
@@ -42,7 +42,7 @@ func (r *room) run() {
 			close(client.send)
 			r.tracer.Trace("クライアント退室")
 		case msg := <-r.forward:
-			r.tracer.Trace("メッセージ受信: ", string(msg))
+			r.tracer.Trace("メッセージ受信: ", msg.Message)
 			for client := range r.clients {
 				select {
 				case client.send <- msg:
@@ -72,7 +72,7 @@ func (r *room) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	}
 	client := &client{
 		socket: socket,
-		send:   make(chan []byte, messeageBufferSize),
+		send:   make(chan *message, messeageBufferSize),
 		room:   r,
 	}
 	r.join <- client
