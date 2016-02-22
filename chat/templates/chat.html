@@ -42,6 +42,10 @@
             var msg = JSON.parse(e.data);
             messages.append(
               $("<li>").append(
+                $("<img>").css({
+					width:50,
+					verticalAlign:"middle"
+				}).attr("src", msg.AvaterURL),
                 $("<strong>").text(msg.Name + ": "),
                 $("<span>").text(msg.Message)
               )
