@@ -58,7 +58,7 @@ func main() {
 			Path: "/",
 			MaxAge: -1,
 		})
-		w.Header()["Location"] = []string("/chat")
+		w.Header()["Location"] = []string{"/chat"}
 		w.WriteHeader(http.StatusTemporaryRedirect)
 	})
 
