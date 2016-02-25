@@ -45,7 +45,7 @@ func main() {
 		facebook.New("866458566797843", "c265d1fe8f5bf6eb28066e20a7f25281", "http://localhost:8080/auth/callback/facebook"),
 	)
 
-	r := newRoom()
+	r := newRoom(UseAuthAvatar)
 
 
 	http.Handle("/chat", MustAuth(&templateHandler{filename: "chat.html"}))
