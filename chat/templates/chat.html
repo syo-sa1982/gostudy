@@ -50,6 +50,7 @@
           }
           socket.onmessage = function(e) {
             var msg = JSON.parse(e.data);
+            console.log(msg);
             messages.append(
               $("<li>").append(
                 $("<img>").attr("title", msg.Name).css({
