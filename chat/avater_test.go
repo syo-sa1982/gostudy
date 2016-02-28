@@ -27,8 +27,9 @@ func TestGravatarAvatar(t *testing.T) {
 	client := new(client)
 	client.userData = map[string]interface{}{"email": "fujii1308@gmail.com"}
 	url, err := gravatarAvatar.GetAvatarURL(client)
-	if err != ErrNoAvatarURL {
+	if err != nil {
 		t.Error(err)
+		t.Error(url)
 		t.Error("GravataAvatar.GetAvatarURLはエラーを返すべきでない")
 	}
 	if url != "//www.gravatar.com/avatar/6e2c7867e96ea21953e6be4c6e1ee507" {
