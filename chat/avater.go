@@ -31,3 +31,9 @@ func (_ GravatarAvatar) GetAvatarURL(c *client) (string, error) {
 	}
 	return "", ErrNoAvatarURL
 }
+
+type FileSystemAvatar struct {}
+var UseFileSystemAvatar FileSystemAvatar
+func (_ FileSystemAvatar) GetAvaterURL(c *client) (string, error) {
+	return "", ErrNoAvatarURL
+}
