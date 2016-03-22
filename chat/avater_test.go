@@ -53,7 +53,7 @@ func TestFileSystemAvatar(t *testing.T) {
 	var fileSystemAvatar FileSystemAvatar
 	client := new(client)
 	client.userData = map[string]interface{}{"userid": "abc"}
-	url, err := fileSystemAvatar.GetAvaterURL(client)
+	url, err := fileSystemAvatar.GetAvatarURL(client)
 	if err != nil {
 		t.Error("FileSystemAvatar.GetAvaterURLはエラーを返すべきでない")
 	}
